@@ -1,0 +1,41 @@
+﻿@page
+@model TrainingManagement.Pages.Offerings.NewModel
+@{
+}
+<form method="post">
+    <div class="form-group">
+        <select asp-for="Offering.CourseId" class="form-control">
+            @foreach(var course in Model.Courses) {
+                <option value="@course.CourseId">@course.Title (@course.CourseId)</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Offering.StartDate"></label>
+        <input class="form-control" type="date" asp-for="Offering.StartDate" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Offering.NumberOfDays"></label>
+        <input type="number" class="form-control" asp-for="Offering.NumberOfDays" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Offering.InstructorId">Instructor</label>
+        <select asp-for="Offering.InstructorId" class="form-control">
+            @foreach(var instructor in Model.Instructors) {
+                <option value="@instructor.Id.ToString()">@instructor.LastName, @instructor.FirstName</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="Offering.Price"></label>
+        <input type="number" class="form-control" asp-for="Offering.Price" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Offering.Location"></label>
+        <select class="form-control" asp-for="Offering.Location">
+            <option>Online</option>
+            <option>OnPrem</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add This Course</button>
+</form>

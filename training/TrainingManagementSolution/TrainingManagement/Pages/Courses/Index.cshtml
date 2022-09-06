@@ -1,0 +1,27 @@
+﻿@page
+@model TrainingManagement.Pages.Courses.IndexModel
+@{
+}
+
+@if(Model.Courses.Count == 0) {
+    <h1>You Have No Courses</h1>
+} else {
+    <h1>You Have Some Courses</h1>
+    <ul class="list-unstyled">
+    @foreach(var course in Model.Courses) {
+        <li class="card">
+            <div class="card-header">@course.Title - <small>@course.CourseId</small></div>
+            <div class="card-body">
+
+                <p>@course.Description</p>
+
+                <p>In the Category @course.Category</p>
+            </div>
+        </li>
+    }
+    </ul>
+}
+
+<div>
+    <a asp-page="/Courses/New" class="btn btn-primary">Add A Course</a>
+</div>

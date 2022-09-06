@@ -1,0 +1,25 @@
+{
+  "projectType": "library",
+  "sourceRoot": "libs/web-users/src",
+  "prefix": "hypertheory",
+  "targets": {
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/web-users"],
+      "options": {
+        "jestConfig": "libs/web-users/jest.config.ts",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": [
+          "libs/web-users/**/*.ts",
+          "libs/web-users/**/*.html"
+        ]
+      }
+    }
+  },
+  "tags": []
+}

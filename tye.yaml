@@ -1,0 +1,24 @@
+name: hypertheory-training
+
+extensions:
+  - name: dapr
+    components-path: ./dapr-components
+
+services:
+  - name: web-presence-bff
+    project: ./web-presence/WebPresenceBFFSolution/WebPresenceBFF/WebPresenceBFF.csproj
+    bindings:
+      - port: 4201
+        protocol: http
+
+  - name: "training-admin"
+    project: ./training/TrainingManagementSolution/TrainingManagement/TrainingManagement.csproj
+    bindings:
+      - port: 4202
+        protocol: http
+
+  - name: mongodb
+    external: true
+    bindings:
+      - port: 27017
+        connectionString: mongodb://root:TokyoJoe138!@localhost:${port}

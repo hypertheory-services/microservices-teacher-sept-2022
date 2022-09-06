@@ -1,0 +1,21 @@
+﻿@page
+@model TrainingManagement.Pages.Instructors.IndexModel
+@{
+}
+<h1>Hypertheory Instructors</h1>
+
+@if(Model.Instructors.Count == 0) {
+    <h1>No Instructors</h1>
+} else {
+    <ul class="list-unstyled">
+    @foreach(var instructor in Model.Instructors) {
+        <li class="card">
+            <div class="card-header">@instructor.FirstName @instructor.LastName</div>
+            <div class="card-body">Reach them at @instructor.Email</div>
+        </li>
+    }
+    </ul>
+}
+<div>
+    <a asp-page="/Instructors/New" class="btn btn-primary">Add An Instructor</a>
+</div>

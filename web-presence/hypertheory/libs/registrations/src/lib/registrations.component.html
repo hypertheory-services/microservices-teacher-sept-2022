@@ -1,0 +1,17 @@
+<div class="row">
+    <section class="col">
+        <div class="card" *ngFor="let reg of model$ | async">
+            <div class="card-header">
+                {{ reg.title}}
+            </div>
+            <div class="card-body">
+                <p>Starts on {{ reg.startDate | date:'mediumDate'}}</p>
+                <p>Status: {{reg.status | titlecase }}</p>
+            </div>
+        </div>
+    </section>
+    <section class="col">
+        <router-outlet></router-outlet>
+    </section>
+</div>
+

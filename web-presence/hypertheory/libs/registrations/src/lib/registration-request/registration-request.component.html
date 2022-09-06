@@ -1,0 +1,30 @@
+<section *ngIf="course$ | async as course">
+  <h3>
+    Request Registration for <em>{{ course.title }}</em>
+  </h3>
+  <p>This is a {{ course.category }} training course.</p>
+  <p>
+    <small>{{ course.description }}</small>
+  </p>
+  <br />
+  <p>Course Starts on: {{ course.startDate | date: 'mediumDate' }}</p>
+  <p>Course Ends on: {{ course.endDate | date: 'mediumDate' }}</p>
+  <p>This is a {{ course.numberOfDays }} day course.</p>
+  <p>Price is {{ course.price | currency }}.</p>
+
+  <section>
+    <p>
+      I Confirm that I ({{ email$ | async }}) would like to enroll for this
+      course.
+    </p>
+    <p>I will pay Hypertheory the full course price, or not. We don't care.</p>
+    <p>
+      <button
+        class="btn btn-success"
+        (click)="confirmRegistrationRequest(course.id)"
+      >
+        Confirm Registration Request
+      </button>
+    </p>
+  </section>
+</section>

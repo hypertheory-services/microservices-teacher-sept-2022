@@ -1,0 +1,23 @@
+﻿@page
+@model TrainingManagement.Pages.Instructors.NewModel
+@{
+}
+
+<form method="post">
+    
+    <div class="form-group">
+
+        <label asp-for="Instructor.FirstName"></label>
+        <input class="form-control" asp-for="Instructor.FirstName" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Instructor.LastName"></label>
+        <input asp-for="Instructor.LastName" class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="Instructor.Email"></label>
+        <input type="email" asp-for="Instructor.Email" class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add This Instructor</button>
+</form>

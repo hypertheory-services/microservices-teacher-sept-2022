@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "projects": {
+    "catalog": "libs/catalog",
+    "frontend": "apps/frontend",
+    "frontend-e2e": "apps/frontend-e2e",
+    "registrations": "libs/registrations",
+    "utils": "libs/utils",
+    "web-users": "libs/web-users"
+  }
+}

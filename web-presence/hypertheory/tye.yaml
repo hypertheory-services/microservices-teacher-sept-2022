@@ -1,0 +1,10 @@
+name: hypertheory-training
+
+services:
+  - name: web-presence-web
+    executable: C:\Users\enith\AppData\Local\Volta\bin\nx.exe
+    args: 'serve frontend'
+    workingDirectory: .
+    bindings:
+      - port: 4200
+        protocol: http

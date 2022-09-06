@@ -1,0 +1,35 @@
+<div class="alert alert-info" *ngIf="catalog.length === 0">
+  <h3>There are not courses available. Sorry. You must know it all!</h3>
+</div>
+
+<ul class="list-unstyled">
+  <li class="card" *ngFor="let course of catalog">
+    <div class="card-header">{{ course.title }}</div>
+    <div class="card-body">
+      <em>{{ course.description }}</em>
+      <p>Upcoming Offerings</p>
+      <div class="alert alert-info" *ngIf="course.offerings.length === 0">
+        <p>No upcoming offerings. Check back soon!</p>
+      </div>
+      <ul class="list-unstyled offering-list">
+        <li *ngFor="let offering of course.offerings">
+          <p>
+            {{ offering.startDate | date: 'mediumDate' }} -
+            {{ offering.endDate | date: 'mediumDate' }} ({{
+              offering.numberOfDays
+            }}
+            days)
+          </p>
+          <small
+            >Course is {{ offering.price | currency }} and offered
+            {{ offering.location }}</small
+          ><br /><a
+            class="btn btn-sm btn-success"
+            (click)="requestRegistration(course.id, offering.id)"
+            >Begin Registration</a
+          >
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>

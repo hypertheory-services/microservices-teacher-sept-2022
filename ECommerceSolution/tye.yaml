@@ -1,0 +1,25 @@
+
+
+extensions:
+  - name: dapr
+    components-path: ./components
+
+name: ecommercesolution
+services:
+- name: ecommerceapi
+  project: ECommerceApi/ECommerceApi.csproj
+  bindings:
+    - port: 1337
+      protocol: http
+
+- name: inventoryapi
+  project: InventoryApi/InventoryApi.csproj
+
+
+# External Services
+
+- name: mongo
+  external: true
+  bindings:
+    - port: 27017
+      connectionString: mongodb://root:TokyoJoe138!@localhost:${port}

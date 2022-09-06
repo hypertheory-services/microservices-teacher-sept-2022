@@ -1,0 +1,31 @@
+﻿@page
+@model TrainingManagement.Pages.Courses.NewModel
+@{
+}
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="Course.Id"></label>
+        <input type="text" asp-for="Course.CourseId" maxlength=30 class="form-control" />
+
+    </div>
+    <div class="form-group">
+
+        <label asp-for="Course.Title"></label>
+        <input class="form-control" asp-for="Course.Title" />
+    </div>
+    <div class="form-group">
+        <label asp-for="Course.Description"></label>
+        <textarea asp-for="Course.Description" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Course.Category"></label>
+        <select asp-for="Course.Category" class="form-control">
+            <option>Frontend</option>
+            <option>Services</option>
+            <option>Other</option>
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Add This Course</button>
+</form>
+
