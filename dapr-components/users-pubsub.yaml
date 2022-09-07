@@ -7,7 +7,7 @@ spec:
   version: v1
   metadata:
     - name: initialOffset
-      value: "newest"
+      value: "oldest" # if you wanted to say ignore all the old ones, just start from when this goes online, change it to newest.
     - name: brokers # Required. Kafka broker connection setting
       value: "localhost:9092"
     - name: clientID # Optional. Used as client tracing ID by Kafka brokers.
