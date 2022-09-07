@@ -1,5 +1,5 @@
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddDaprClient(); // only need this to publish.
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -8,6 +8,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+app.UseCloudEvents();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -16,8 +17,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseAuthorization();
 
 app.MapControllers();
-
+app.UseRouting();
+app.UseAuthorization();
+app.UseEndpoints(endpoints => endpoints.MapSubscribeHandler());
 app.Run();
