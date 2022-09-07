@@ -17,6 +17,10 @@ services:
       - port: 4202
         protocol: http
 
+  - name: "users"
+    project: ./UsersBoundedContext/UsersSolution/UsersApi/UsersApi.csproj
+    
+
   - name: mongodb
     external: true
     bindings:
