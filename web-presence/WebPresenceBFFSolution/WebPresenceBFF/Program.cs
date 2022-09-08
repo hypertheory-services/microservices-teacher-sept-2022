@@ -4,11 +4,13 @@ using HypertheoryMessages.Training;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using MongoDB.Bson.Serialization.Conventions;
+using MongoDB.Driver;
 using WebPresenceBFF;
 using WebPresenceBFF.Adapters;
 using WebPresenceBFF.Domain;
 using WebPresenceBFF.Hubs;
 using Course = HypertheoryMessages.Training.Course;
+using trainingMessages = HypertheoryMessages.Training;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddSignalR();
@@ -79,6 +81,27 @@ app.MapPost("/training/offerings", async ([FromBody] Offering offering, CourseCa
 
 }).WithTopic("webpresence", Offering.Topic);
 
+app.MapPost("/training/registrations", async ([FromBody] trainingMessages.Registration request,
+    [FromServices] MongoDbBffAdapter adapter,
+    [FromServices] IHubContext<CoursesHub> hub
+
+
+    ) =>
+{
+    // find that registration, change it's status to "Approved", save it.
+    var filter = Builders<RegistrationEntity>.Filter.Where(r => r.UserId == request.UserId && r.OfferingId == request.OfferingId);
+
+    var update = Builders<RegistrationEntity>.Update.Set(r => r.Status, "Approved");
+
+   var result = await adapter.Registrations.UpdateOneAsync(filter, update);
+
+    var savedRegistration = await adapter.Registrations.Find(filter).SingleOrDefaultAsync();
+
+    await hub.Clients.User(savedRegistration.UserId).SendAsync("registration", savedRegistration);
+    // tell the user it is updated (WS)
+    return Results.Ok();
+
+}).WithTopic("webpresence", trainingMessages.Registration.Topic);
 
 app.MapPost("/register", (Delegate)Auth.Register());
 
