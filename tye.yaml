@@ -20,7 +20,9 @@ services:
 
   - name: "users"
     project: ./UsersBoundedContext/UsersSolution/UsersApi/UsersApi.csproj
-    
+
+  - name: "registration-processor"
+    project: ./training/RegistrationProcessorSolution/RegistrationProcessor/RegistrationProcessor.csproj 
 
   - name: mongodb
     external: true
