@@ -35,3 +35,19 @@ public record Offering
 
     public static readonly string Topic = "hypertheory.training.offering";
 }
+
+
+/*	hypertheory.training.registration
+		- Registration Id. (key)
+		- created: DateTime
+		- userId: jeff@hypertheory.com
+		- offeringId: 6318b9dcb410be3025bb6d2d*/
+
+public record Registration
+{
+    public string Id { get; set; } = string.Empty;
+    public DateTime Created { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public string OfferingId { get; set; } = string.Empty;
+    public static readonly string Topic = "hypertheory.training.registration";
+}
