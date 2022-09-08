@@ -3,6 +3,7 @@ name: hypertheory-training
 extensions:
   - name: dapr
     components-path: ./dapr-components
+    enable-profiling: true
 
 services:
   - name: web-presence-bff
