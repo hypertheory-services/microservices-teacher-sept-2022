@@ -1,5 +1,5 @@
 name: hypertheory-training
-
+namespace: hypertheory
 extensions:
   - name: dapr
     components-path: ./dapr-components

@@ -1,0 +1,359 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: web-presence-bff
+  namespace: hypertheory
+  annotations:
+    dapr.io/enabled: 'true'
+    dapr.io/app-id: 'web-presence-bff'
+    dapr.io/app-port: '4201'
+  labels:
+    app.kubernetes.io/name: 'web-presence-bff'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: web-presence-bff
+  template:
+    metadata:
+      annotations:
+        dapr.io/enabled: 'true'
+        dapr.io/app-id: 'web-presence-bff'
+        dapr.io/app-port: '4201'
+      labels:
+        app.kubernetes.io/name: 'web-presence-bff'
+        app.kubernetes.io/part-of: 'hypertheory-training'
+    spec:
+      containers:
+      - name: web-presence-bff
+        image: web-presence-bff:1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: DOTNET_LOGGING__CONSOLE__DISABLECOLORS
+          value: 'true'
+        - name: ASPNETCORE_URLS
+          value: 'http://*:4201'
+        - name: PORT
+          value: '4201'
+        - name: SERVICE__WEB-PRESENCE-BFF__PROTOCOL
+          value: 'http'
+        - name: SERVICE__WEB-PRESENCE-BFF__PORT
+          value: '4201'
+        - name: SERVICE__WEB-PRESENCE-BFF__HOST
+          value: 'web-presence-bff'
+        - name: SERVICE__TRAINING-ADMIN__PROTOCOL
+          value: 'http'
+        - name: SERVICE__TRAINING-ADMIN__PORT
+          value: '4202'
+        - name: SERVICE__TRAINING-ADMIN__HOST
+          value: 'training-admin'
+        - name: SERVICE__USERS__PROTOCOL
+          value: 'http'
+        - name: SERVICE__USERS__PORT
+          value: '80'
+        - name: SERVICE__USERS__HOST
+          value: 'users'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PROTOCOL
+          value: 'http'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PORT
+          value: '80'
+        - name: SERVICE__REGISTRATION-PROCESSOR__HOST
+          value: 'registration-processor'
+        - name: CONNECTIONSTRINGS__MONGODB
+          valueFrom:
+            secretKeyRef:
+              name: 'binding-production-mongodb-secret'
+              key: 'connectionstring'
+        ports:
+        - containerPort: 4201
+...
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: web-presence-bff
+  namespace: hypertheory
+  labels:
+    app.kubernetes.io/name: 'web-presence-bff'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  selector:
+    app.kubernetes.io/name: web-presence-bff
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 4201
+    targetPort: 4201
+...
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: training-admin
+  namespace: hypertheory
+  annotations:
+    dapr.io/enabled: 'true'
+    dapr.io/app-id: 'training-admin'
+    dapr.io/app-port: '4202'
+  labels:
+    app.kubernetes.io/name: 'training-admin'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: training-admin
+  template:
+    metadata:
+      annotations:
+        dapr.io/enabled: 'true'
+        dapr.io/app-id: 'training-admin'
+        dapr.io/app-port: '4202'
+      labels:
+        app.kubernetes.io/name: 'training-admin'
+        app.kubernetes.io/part-of: 'hypertheory-training'
+    spec:
+      containers:
+      - name: training-admin
+        image: training-admin:1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: DOTNET_LOGGING__CONSOLE__DISABLECOLORS
+          value: 'true'
+        - name: ASPNETCORE_URLS
+          value: 'http://*:4202'
+        - name: PORT
+          value: '4202'
+        - name: SERVICE__TRAINING-ADMIN__PROTOCOL
+          value: 'http'
+        - name: SERVICE__TRAINING-ADMIN__PORT
+          value: '4202'
+        - name: SERVICE__TRAINING-ADMIN__HOST
+          value: 'training-admin'
+        - name: SERVICE__WEB-PRESENCE-BFF__PROTOCOL
+          value: 'http'
+        - name: SERVICE__WEB-PRESENCE-BFF__PORT
+          value: '4201'
+        - name: SERVICE__WEB-PRESENCE-BFF__HOST
+          value: 'web-presence-bff'
+        - name: SERVICE__USERS__PROTOCOL
+          value: 'http'
+        - name: SERVICE__USERS__PORT
+          value: '80'
+        - name: SERVICE__USERS__HOST
+          value: 'users'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PROTOCOL
+          value: 'http'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PORT
+          value: '80'
+        - name: SERVICE__REGISTRATION-PROCESSOR__HOST
+          value: 'registration-processor'
+        - name: CONNECTIONSTRINGS__MONGODB
+          valueFrom:
+            secretKeyRef:
+              name: 'binding-production-mongodb-secret'
+              key: 'connectionstring'
+        ports:
+        - containerPort: 4202
+...
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: training-admin
+  namespace: hypertheory
+  labels:
+    app.kubernetes.io/name: 'training-admin'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  selector:
+    app.kubernetes.io/name: training-admin
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 4202
+    targetPort: 4202
+...
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: users
+  namespace: hypertheory
+  annotations:
+    dapr.io/enabled: 'true'
+    dapr.io/app-id: 'users'
+    dapr.io/app-port: '80'
+  labels:
+    app.kubernetes.io/name: 'users'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: users
+  template:
+    metadata:
+      annotations:
+        dapr.io/enabled: 'true'
+        dapr.io/app-id: 'users'
+        dapr.io/app-port: '80'
+      labels:
+        app.kubernetes.io/name: 'users'
+        app.kubernetes.io/part-of: 'hypertheory-training'
+    spec:
+      containers:
+      - name: users
+        image: users:1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: DOTNET_LOGGING__CONSOLE__DISABLECOLORS
+          value: 'true'
+        - name: ASPNETCORE_URLS
+          value: 'http://*'
+        - name: PORT
+          value: '80'
+        - name: SERVICE__USERS__PROTOCOL
+          value: 'http'
+        - name: SERVICE__USERS__PORT
+          value: '80'
+        - name: SERVICE__USERS__HOST
+          value: 'users'
+        - name: SERVICE__WEB-PRESENCE-BFF__PROTOCOL
+          value: 'http'
+        - name: SERVICE__WEB-PRESENCE-BFF__PORT
+          value: '4201'
+        - name: SERVICE__WEB-PRESENCE-BFF__HOST
+          value: 'web-presence-bff'
+        - name: SERVICE__TRAINING-ADMIN__PROTOCOL
+          value: 'http'
+        - name: SERVICE__TRAINING-ADMIN__PORT
+          value: '4202'
+        - name: SERVICE__TRAINING-ADMIN__HOST
+          value: 'training-admin'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PROTOCOL
+          value: 'http'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PORT
+          value: '80'
+        - name: SERVICE__REGISTRATION-PROCESSOR__HOST
+          value: 'registration-processor'
+        - name: CONNECTIONSTRINGS__MONGODB
+          valueFrom:
+            secretKeyRef:
+              name: 'binding-production-mongodb-secret'
+              key: 'connectionstring'
+        ports:
+        - containerPort: 80
+...
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: users
+  namespace: hypertheory
+  labels:
+    app.kubernetes.io/name: 'users'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  selector:
+    app.kubernetes.io/name: users
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+...
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: registration-processor
+  namespace: hypertheory
+  annotations:
+    dapr.io/enabled: 'true'
+    dapr.io/app-id: 'registration-processor'
+    dapr.io/app-port: '80'
+  labels:
+    app.kubernetes.io/name: 'registration-processor'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: registration-processor
+  template:
+    metadata:
+      annotations:
+        dapr.io/enabled: 'true'
+        dapr.io/app-id: 'registration-processor'
+        dapr.io/app-port: '80'
+      labels:
+        app.kubernetes.io/name: 'registration-processor'
+        app.kubernetes.io/part-of: 'hypertheory-training'
+    spec:
+      containers:
+      - name: registration-processor
+        image: registration-processor:1.0.0
+        imagePullPolicy: Always
+        env:
+        - name: DOTNET_LOGGING__CONSOLE__DISABLECOLORS
+          value: 'true'
+        - name: ASPNETCORE_URLS
+          value: 'http://*'
+        - name: PORT
+          value: '80'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PROTOCOL
+          value: 'http'
+        - name: SERVICE__REGISTRATION-PROCESSOR__PORT
+          value: '80'
+        - name: SERVICE__REGISTRATION-PROCESSOR__HOST
+          value: 'registration-processor'
+        - name: SERVICE__WEB-PRESENCE-BFF__PROTOCOL
+          value: 'http'
+        - name: SERVICE__WEB-PRESENCE-BFF__PORT
+          value: '4201'
+        - name: SERVICE__WEB-PRESENCE-BFF__HOST
+          value: 'web-presence-bff'
+        - name: SERVICE__TRAINING-ADMIN__PROTOCOL
+          value: 'http'
+        - name: SERVICE__TRAINING-ADMIN__PORT
+          value: '4202'
+        - name: SERVICE__TRAINING-ADMIN__HOST
+          value: 'training-admin'
+        - name: SERVICE__USERS__PROTOCOL
+          value: 'http'
+        - name: SERVICE__USERS__PORT
+          value: '80'
+        - name: SERVICE__USERS__HOST
+          value: 'users'
+        - name: CONNECTIONSTRINGS__MONGODB
+          valueFrom:
+            secretKeyRef:
+              name: 'binding-production-mongodb-secret'
+              key: 'connectionstring'
+        ports:
+        - containerPort: 80
+...
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: registration-processor
+  namespace: hypertheory
+  labels:
+    app.kubernetes.io/name: 'registration-processor'
+    app.kubernetes.io/part-of: 'hypertheory-training'
+spec:
+  selector:
+    app.kubernetes.io/name: registration-processor
+  type: ClusterIP
+  ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 80
+...
