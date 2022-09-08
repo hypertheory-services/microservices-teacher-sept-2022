@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32825.248
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegistrationProcessor", "RegistrationProcessor\RegistrationProcessor.csproj", "{02B222CD-3280-493E-9D89-70C7E4EB1D79}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HypertheoryMessages", "..\..\HypertheoryMessages\HypertheoryMessages.csproj", "{66F8E45E-7A3F-44A9-B526-5F31CDBAE36A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{02B222CD-3280-493E-9D89-70C7E4EB1D79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02B222CD-3280-493E-9D89-70C7E4EB1D79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02B222CD-3280-493E-9D89-70C7E4EB1D79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66F8E45E-7A3F-44A9-B526-5F31CDBAE36A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66F8E45E-7A3F-44A9-B526-5F31CDBAE36A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66F8E45E-7A3F-44A9-B526-5F31CDBAE36A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66F8E45E-7A3F-44A9-B526-5F31CDBAE36A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

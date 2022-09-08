@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Adapters\" />
+    <ProjectReference Include="..\..\..\HypertheoryMessages\HypertheoryMessages.csproj" />
   </ItemGroup>
 
 </Project>
