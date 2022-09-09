@@ -85,7 +85,6 @@ app.MapPost("/training/registrations", async ([FromBody] trainingMessages.Regist
     [FromServices] MongoDbBffAdapter adapter,
     [FromServices] IHubContext<CoursesHub> hub
 
-
     ) =>
 {
     // find that registration, change it's status to "Approved", save it.
@@ -93,11 +92,11 @@ app.MapPost("/training/registrations", async ([FromBody] trainingMessages.Regist
 
     var update = Builders<RegistrationEntity>.Update.Set(r => r.Status, "Approved");
 
-   var result = await adapter.Registrations.UpdateOneAsync(filter, update);
+    var result = await adapter.Registrations.UpdateOneAsync(filter, update);
 
     var savedRegistration = await adapter.Registrations.Find(filter).SingleOrDefaultAsync();
-
-    await hub.Clients.User(savedRegistration.UserId).SendAsync("registration", savedRegistration);
+    var group = $"group_{request.UserId}";
+    await hub.Clients.Group(group).SendAsync("registration", savedRegistration);
     // tell the user it is updated (WS)
     return Results.Ok();
 
@@ -107,10 +106,7 @@ app.MapPost("/register", (Delegate)Auth.Register());
 
 app.MapPost("/login", (Delegate)Auth.Login());
 
-app.MapHub<CoursesHub>("/courses-hub", options =>
-{
-   
-});
+app.MapHub<CoursesHub>("/courses-hub");
 app.Run();
 
 

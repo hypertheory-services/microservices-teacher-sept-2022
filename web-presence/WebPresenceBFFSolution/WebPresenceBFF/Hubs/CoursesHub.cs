@@ -12,11 +12,13 @@ public class CoursesHub : Hub
     private readonly ILogger<CoursesHub> _logger;
     private readonly MongoDbBffAdapter _adapter;
     private readonly DaprAdapter _dapr;
+
     public CoursesHub(ILogger<CoursesHub> logger, MongoDbBffAdapter adapter, DaprAdapter dapr)
     {
         _logger = logger;
         _adapter = adapter;
         _dapr = dapr;
+
     }
 
     public async Task RegistrationRequested(RegistrationEntity registrationRequest)
@@ -28,5 +30,12 @@ public class CoursesHub : Hub
         await Clients.Caller.SendAsync("registration", registrationRequest);
 
     }
+    public override async Task OnConnectedAsync()
+    {
+        var userName = Context.User!.Identity!.Name!;
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"group_{userName}");
+
+    }
+
 }
 

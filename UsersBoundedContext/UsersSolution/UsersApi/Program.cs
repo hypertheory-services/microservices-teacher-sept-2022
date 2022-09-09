@@ -22,4 +22,5 @@ app.MapControllers();
 app.UseRouting();
 app.UseAuthorization();
 app.UseEndpoints(endpoints => endpoints.MapSubscribeHandler());
+System.Console.WriteLine("Starting Users Stream Processor");
 app.Run();
